@@ -125,8 +125,10 @@ function initialize()
 
 		mesh = new THREE.Mesh( geometry1, material );
 		mesh.rotation.x = -Math.PI/2;
-		//mesh.translateX(5);
-		//mesh.scale(2.25,2.25,2);
+		//mesh.translateX(-0.0);
+		//mesh.translateY(0.0);
+		// oversize the textures to allow for easy puzzle manipulation
+		mesh.scale.set(1.5,1.5,1.5);
 
 		markerRoot.add( mesh );
 	}
