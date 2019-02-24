@@ -125,6 +125,7 @@ function initialize()
 
 		mesh = new THREE.Mesh( geometry1, material );
 		mesh.rotation.x = -Math.PI/2;
+		mesh.translateX(5);
 		mesh.scale(2.25,2.25,2);
 
 		markerRoot.add( mesh );
