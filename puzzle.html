@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>Hello, world!</title>
+	<title>Hello, puzzle!</title>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
 	<!-- include jsartookit -->
@@ -107,7 +107,8 @@ function initialize()
 
 	let loader = new THREE.TextureLoader();
 	let texture = loader.load( 'images/border.png' );
-	let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
+	//let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
+		let geometry1 = new THREE.PlaneBufferGeometry(-1,-1, 6,6);
 
 	let patternArray = ["letterA", "letterB", "letterC", "letterD", "letterF", "kanji"];
 	let imageArray   = ["puzzle3.jpg", "puzzle5.jpg", "puzzle1.jpg","puzzle4.jpg", "puzzle2.jpg", "puzzle6.jpg"];
