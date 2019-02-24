@@ -108,7 +108,7 @@ function initialize()
 	let loader = new THREE.TextureLoader();
 	let texture = loader.load( 'images/border.png' );
 	//let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
-		let geometry1 = new THREE.PlaneBufferGeometry(-1,-1, 6,6);
+		let geometry1 = new THREE.PlaneBufferGeometry(1,1, 8,8);
 
 	let patternArray = ["letterA", "letterB", "letterC", "letterD", "letterF", "kanji"];
 	let imageArray   = ["puzzle3.jpg", "puzzle5.jpg", "puzzle1.jpg","puzzle4.jpg", "puzzle2.jpg", "puzzle6.jpg"];
@@ -125,6 +125,8 @@ function initialize()
 
 		mesh = new THREE.Mesh( geometry1, material );
 		mesh.rotation.x = -Math.PI/2;
+		mesh.translateX = -5;
+		mesh.translateY = -5;
 
 		markerRoot.add( mesh );
 	}
