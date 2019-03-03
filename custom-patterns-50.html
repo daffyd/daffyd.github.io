@@ -108,8 +108,6 @@ function initialize()
 	let loader = new THREE.TextureLoader();
 	let texture = loader.load( 'images/border.png' );
 
-	//let patternArray = ["letterA", "letterB", "letterC", "letterD", "letterF", "kanji", "hiro"];
-//	let patternArray = [ "arrowhead75", "compass75", "firstaid75", "fleur75", "handsign75", "hiker75", "knife75", "knot75", "rope75", "sun75", "swisstwo75", "tent75"];
 	let patternArray = [ 
 		"arrowhead",
 		"compass",
@@ -129,7 +127,7 @@ function initialize()
 0x0000ff, 0xcc00ff, 0xcccccc, 0xCCCC00,
 0x00cccc, 0xcc00cc, 0xccffcc, 0x88CCff
 ];
-	for (let i = 0; i < 7; i++)
+	for (let i = 0; i < patternArray.length; i++)
 	{
 		let markerRoot = new THREE.Group();
 		scene.add(markerRoot);
