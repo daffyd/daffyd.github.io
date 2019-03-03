@@ -109,17 +109,17 @@ function initialize()
 	let texture = loader.load( 'images/border.png' );
 
 	let patternArray = [ 
-		"sun",
-		"fleur",
-		"bsa",
+		"patterns50/sun",
+		"patterns50/fleur",
+		"data/letterB",
 
-		"hiker",
-		"tent",
-		"tree",
+		"patterns50/hiker",
+		"patterns50/tent",
+		"patterns50/tree",
 
-		"key",
-		"diag-knot",
-		"worldscout",
+		"patterns50/key",
+		"patterns50/diag-knot",
+		"data/letterA",
 
 ];
 
@@ -135,7 +135,7 @@ function initialize()
 		let markerRoot = new THREE.Group();
 		scene.add(markerRoot);
 		let markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
-			type : 'pattern', patternUrl : "patterns50/" + patternArray[i] + ".patt",
+			type : 'pattern', patternUrl : patternArray[i] + ".patt",
 		});
 
 		let mesh = new THREE.Mesh(
