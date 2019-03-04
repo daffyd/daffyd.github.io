@@ -110,17 +110,44 @@ function initialize()
 	//let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
 		let geometry1 = new THREE.PlaneBufferGeometry(1,1, 8,8);
 
-	let patternArray = ["letterA", "letterB", "letterC", "letterD", "letterF", "kanji"];
-	let imageArray   = ["puzzle3.jpg", "puzzle5.jpg", "puzzle1.jpg","puzzle4.jpg", "puzzle2.jpg", "puzzle6.jpg"];
-	for (let i = 0; i < 6; i++)
+	let patternArray = [ 
+		"data/kanji",
+		"patterns50/bsa-low",
+		"data/letterB",
+
+		"patterns50/hiker",
+		"data/letterD",
+		"patterns50/key",
+
+		"patterns50/tent",
+		"patterns50/fleur",
+		"data/letterA",
+
+		"data/letterF",
+		"patterns50/tree",
+		"data/letterC",
+		];
+
+	let imageArray   = [
+		"piece.tl.png",
+		"piece.ml.png",
+		"piece.bl.png",
+		"piece.tm.png",
+		"piece.mm.png",
+		"piece.bm.png",
+		"piece.tr.png",
+		"piece.mr.png",
+		"piece.br.png",
+		];
+	for (let i = 0; i < imageArray.length; i++)
 	{
 		let markerRoot = new THREE.Group();
 		scene.add(markerRoot);
 		let markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
-			type : 'pattern', patternUrl : "data/" + patternArray[i] + ".patt",
+			type : 'pattern', patternUrl : patternArray[i] + ".patt",
 		});
 
-		let texture = loader.load( 'images/' + imageArray[i], render );
+		let texture = loader.load( 'puzzle/' + imageArray[i], render );
 		let material = new THREE.MeshBasicMaterial( { map: texture } );
 
 		mesh = new THREE.Mesh( geometry1, material );
@@ -128,7 +155,7 @@ function initialize()
 		//mesh.translateX(-0.0);
 		//mesh.translateY(0.0);
 		// oversize the textures to allow for easy puzzle manipulation
-		mesh.scale.set(1.5,1.5,1.5);
+		mesh.scale.set(1.26,1.26,1.26);
 
 		markerRoot.add( mesh );
 	}
