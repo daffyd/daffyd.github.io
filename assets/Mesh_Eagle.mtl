@@ -1,0 +1,7 @@
+newmtl lambert2SG
+illum 4
+Kd 0.90 0.90 0.90
+Ka 0.10 0.10 0.10
+Tf 1.00 1.00 1.00
+map_Kd Tex_Eagle.png
+Ni 1.00

@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title>Hello, world!</title>
+	<!-- include three.js library -->
+	<script src='js/three.js'></script>
+	<script src='js/OBJLoader.js'></script>
+	<script src='js/MTLLoader.js'></script>
+	<!-- include jsartookit -->
+	<script src="jsartoolkit5/artoolkit.min.js"></script>
+	<script src="jsartoolkit5/artoolkit.api.js"></script>
+	<!-- include threex.artoolkit -->
+	<script src="threex/threex-artoolkitsource.js"></script>
+	<script src="threex/threex-artoolkitcontext.js"></script>
+	<script src="threex/threex-arbasecontrols.js"></script>
+	<script src="threex/threex-armarkercontrols.js"></script>
+</head>
+
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+
+<!-- 
+  Example created by Lee Stemkoski: https://github.com/stemkoski
+  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
+-->
+
+<script>
+
+var scene, camera, renderer, clock, deltaTime, totalTime;
+
+var arToolkitSource, arToolkitContext;
+
+initialize();
+animate();
+
+function initialize()
+{
+	scene = new THREE.Scene();
+
+	var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+	keyLight.position.set(-100, 0, 100);
+
+	var fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+	fillLight.position.set(100, 0, 100);
+
+	var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+	backLight.position.set(100, 0, -100).normalize();
+
+	scene.add(keyLight);
+	scene.add(fillLight);
+	scene.add(backLight);
+
+	//let ambientLight = new THREE.AmbientLight( 0xcccccc, 1.0 );
+	//scene.add( ambientLight );
+				
+	camera = new THREE.Camera();
+	scene.add(camera);
+
+	renderer = new THREE.WebGLRenderer({
+		antialias : true,
+		alpha: true,
+	});
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	renderer.setSize( 640, 480 );
+	renderer.domElement.style.position = 'absolute'
+	renderer.domElement.style.top = '0px'
+	renderer.domElement.style.left = '0px'
+	document.body.appendChild( renderer.domElement );
+
+	clock = new THREE.Clock();
+	deltaTime = 0;
+	totalTime = 0;
+	
+	////////////////////////////////////////////////////////////
+	// setup arToolkitSource
+	////////////////////////////////////////////////////////////
+
+	arToolkitSource = new THREEx.ArToolkitSource({
+		sourceType : 'webcam',
+	});
+
+	function onResize()
+	{
+		arToolkitSource.onResizeElement()	
+		arToolkitSource.copyElementSizeTo(renderer.domElement)	
+		if ( arToolkitContext.arController !== null )
+		{
+			arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)	
+		}	
+	}
+
+	arToolkitSource.init(function onReady(){
+		onResize()
+	});
+	
+	// handle resize event
+	window.addEventListener('resize', function(){
+		onResize()
+	});
+	
+	////////////////////////////////////////////////////////////
+	// setup arToolkitContext
+	////////////////////////////////////////////////////////////	
+
+	// create atToolkitContext
+	arToolkitContext = new THREEx.ArToolkitContext({
+		cameraParametersUrl: './data/camera_para.dat',
+		detectionMode: 'mono'
+	});
+	
+	// copy projection matrix to camera when initialization complete
+	arToolkitContext.init( function onCompleted(){
+		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+	});
+
+	////////////////////////////////////////////////////////////
+	// setup markerRoots
+	////////////////////////////////////////////////////////////
+
+	function addModelAndPattern(pattern, modelName) {
+		// build markerControls
+		var markerRoot
+
+		var onLoad = function(object) {
+			var model = modelName;
+	console.log("Model "+model);
+
+		    if (model == mBear) {
+	console.log("Using "+mBear);
+			object.scale.set(0.007,0.007,0.007);
+		    } else if (model == mBlackBear) {
+	console.log("Using "+mBlackBear);
+			object.scale.set(0.15,0.15,0.15);
+			//object.translateY(0.5);
+		    } else if (model == mPlane) {
+	console.log("Using "+mPlane);
+			object.translateY(0.5);
+		    } else if (model == mBattleship) {
+	console.log("Using "+mBattleship);
+			object.scale.set(0.07,0.07,0.07);
+		    } else if (model == mEagle) {
+	console.log("Using "+mEagle);
+			object.scale.set(0.01,0.01,0.01);
+			object.translateY(0.5);
+		    } else if (model == mCar) {
+	console.log("Using "+mCar);
+			object.scale.set(0.1,0.1,0.1);
+			//object.translateY(0.5);
+		    } else if (model == mCampsite) {
+	console.log("Using "+mCampsite);
+			//object.scale.set(0.1,0.1,0.1);
+			object.translateY(0.18);
+		    } else if (model == mCastle) {
+	console.log("Using "+mCastle);
+			object.scale.set(0.8,0.8,0.8);
+			object.translateY(0.5);
+		    } else if (model == mShuttle) {
+	console.log("Using "+mCastle);
+			object.scale.set(0.05,0.05,0.05);
+			object.translateY(1.2);
+		    } else if (model == mBackpack) {
+	console.log("Using "+mBackpack);
+			object.scale.set(4,4,4);
+			object.translateY(0.9);
+		    } else if (model == mBackpackFlashlight) {
+	console.log("Using "+mBackpackFlashlight);
+			object.scale.set(0.7,0.8,0.7);
+			object.translateY(0.6);
+		    }
+		    markerRoot.add(object);
+		}	
+
+		markerRoot = new THREE.Group();
+		scene.add(markerRoot);
+		let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+			type: 'pattern', patternUrl: pattern + ".patt",
+		})
+
+		let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
+		let loader = new THREE.TextureLoader();
+		let material1 = new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0.5 } );
+		let mesh = new THREE.Mesh( geometry1, material1 );
+		mesh.rotation.x = -Math.PI/2;
+		markerRoot.add( mesh );
+		
+		function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
+		function onError(xhr) { console.log( 'An error happened' ); }
+
+
+		var mtlLoader = new THREE.MTLLoader();
+		mtlLoader.setTexturePath('./assets/');
+		mtlLoader.setPath('./assets/');
+		mtlLoader.load(modelName  + '.mtl', function (materials) {
+
+		    materials.preload();
+
+		    var objLoader = new THREE.OBJLoader();
+		    objLoader.setMaterials(materials);
+		    objLoader.setPath('./assets/');
+		    objLoader.load(modelName+'.obj', onLoad);
+
+		});
+	}
+
+	let patternArray = [ 
+		"data/kanji",
+		"patterns50/bsa-low",
+		"data/letterB",
+
+		"patterns50/hiker",
+		"data/letterD",
+		"patterns50/key",
+
+		"patterns50/tent",
+		"patterns50/fleur",
+		"data/letterA",
+
+		"data/letterF",
+		"patterns50/tree",
+		"data/letterC",
+		];
+
+	let mBear = "Bear"; 
+	// https://poly.google.com/view/cqV6mUkn7Ow
+	// Bear
+	// by angelo raffaele Catalano
+
+	let mBlackBear = "BlackBear"; 
+	// https://poly.google.com/view/56ym_pyVnel
+	// Black Bear
+	// by Poly by Google
+
+	let mPlane = "PUSHILIN_Plane"; 
+	// https://poly.google.com/view/8VysVKMXN2J
+	// Eagle
+	// by Poly by Google
+
+	let mBattleship = "lo_poly_battleship";
+	// https://poly.google.com/view/cqV6mUkn7Ow
+	// Bear
+	// by angelo raffaele Catalano
+
+	let mEagle = "Mesh_Eagle";
+	// https://poly.google.com/view/d7CSLvsHULY
+	// Eagle
+	// by Poly by Google
+
+	let mCar = "strts";
+	// https://poly.google.com/view/bZzOLcCHOu7
+	// stratos race car concept
+	// by angelo raffaele Catalano
+
+	let mCampsite = "campsite";
+	// https://poly.google.com/view/4PazXqve8xz
+	// Camp site
+	// by Linus Ekenstam
+
+	let mCastle = "castle";
+	// https://poly.google.com/view/etqqsPcUD0V 
+	// Castle of the Cool Guys
+	// by Nathan DiPietro
+
+	let mShuttle = "SpaceShuttle";
+	// https://poly.google.com/view/djxolbz_CYC
+	// space Shuttle
+	// by Poly by Google
+
+	let mBackpack = "Backpack";
+	// https://poly.google.com/view/fp3sfyQhJNf
+	// Travel Backpack
+	// by Kaitlin Santiago
+
+	let mBackpackFlashlight = "BackpackFlashlight";
+	// https://poly.google.com/view/aVCjXvxs6sP
+	// Backpack & Flashlight
+	// by Don Carson
+
+
+	let modelArray = [ 
+		//mBear,
+		mBlackBear,
+		mPlane,
+		mBattleship,
+		mEagle,
+		mCar,
+		mCampsite,
+		mCastle,
+		mShuttle,
+		//mBackpack,
+		mBackpackFlashlight,
+		];
+	for (let i = 0; i < modelArray.length; i++)
+	{
+		addModelAndPattern(patternArray[i], modelArray[i]);
+	}
+
+	
+}
+
+
+function update()
+{
+	// update artoolkit on every frame
+	if ( arToolkitSource.ready !== false )
+		arToolkitContext.update( arToolkitSource.domElement );
+}
+
+
+function render()
+{
+	renderer.render( scene, camera );
+}
+
+
+function animate()
+{
+	requestAnimationFrame(animate);
+	deltaTime = clock.getDelta();
+	totalTime += deltaTime;
+	update();
+	render();
+}
+
+</script>
+
+</body>
+</html>
