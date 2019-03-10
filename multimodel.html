@@ -140,7 +140,7 @@ function initialize()
 			object.scale.set(0.07,0.07,0.07);
 		    } else if (model == mEagle) {
 	console.log("Using "+mEagle);
-			object.scale.set(0.01,0.01,0.01);
+			object.scale.set(0.04,0.04,0.04);
 			object.translateY(0.5);
 		    } else if (model == mCar) {
 	console.log("Using "+mCar);
@@ -148,24 +148,28 @@ function initialize()
 			//object.translateY(0.5);
 		    } else if (model == mCampsite) {
 	console.log("Using "+mCampsite);
-			//object.scale.set(0.1,0.1,0.1);
-			object.translateY(0.18);
+			//object.scale.set(0.3,0.3,0.3);
+			object.translateY(0.25);
 		    } else if (model == mCastle) {
 	console.log("Using "+mCastle);
-			object.scale.set(0.8,0.8,0.8);
+			object.scale.set(1.2,1.2,1.2);
 			object.translateY(0.5);
 		    } else if (model == mShuttle) {
 	console.log("Using "+mCastle);
-			object.scale.set(0.05,0.05,0.05);
-			object.translateY(1.2);
+			object.scale.set(0.08,0.08,0.08);
+			object.translateY(1.3);
 		    } else if (model == mBackpack) {
 	console.log("Using "+mBackpack);
 			object.scale.set(4,4,4);
 			object.translateY(0.9);
 		    } else if (model == mBackpackFlashlight) {
 	console.log("Using "+mBackpackFlashlight);
-			object.scale.set(0.7,0.8,0.7);
+			object.scale.set(0.9,1.1,0.9);
 			object.translateY(0.6);
+		    } else if (model == mSteamTrain) {
+	console.log("Using "+mSteamTrain);
+			//object.scale.set(1.2,1.2,1.2);
+			object.translateY(0.5);
 		    }
 		    markerRoot.add(object);
 		}	
@@ -178,7 +182,9 @@ function initialize()
 
 		let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
 		let loader = new THREE.TextureLoader();
-		let material1 = new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0.5 } );
+		let material1 = new THREE.MeshBasicMaterial( 
+			//{ color: 0x0000ff, opacity: 0.5 } );
+			{ color: 0x8B4513, opacity: 1.0 } );
 		let mesh = new THREE.Mesh( geometry1, material1 );
 		mesh.rotation.x = -Math.PI/2;
 		markerRoot.add( mesh );
@@ -275,14 +281,20 @@ function initialize()
 	// Backpack & Flashlight
 	// by Don Carson
 
+	let mSteamTrain = "SteamTrain";
+	// https://poly.google.com/view/8si3z2CBUuc
+	// Steam Train
+	// by Jarlan Perez
+
 
 	let modelArray = [ 
+		mSteamTrain,
 		//mBear,
 		mBlackBear,
 		mPlane,
 		mBattleship,
 		mEagle,
-		mCar,
+		//mCar,
 		mCampsite,
 		mCastle,
 		mShuttle,
