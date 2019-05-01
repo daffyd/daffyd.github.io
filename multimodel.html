@@ -19,7 +19,7 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
-<!-- 
+<!--
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
@@ -52,7 +52,7 @@ function initialize()
 
 	//let ambientLight = new THREE.AmbientLight( 0xcccccc, 1.0 );
 	//scene.add( ambientLight );
-				
+
 	camera = new THREE.Camera();
 	scene.add(camera);
 
@@ -70,7 +70,7 @@ function initialize()
 	clock = new THREE.Clock();
 	deltaTime = 0;
 	totalTime = 0;
-	
+
 	////////////////////////////////////////////////////////////
 	// setup arToolkitSource
 	////////////////////////////////////////////////////////////
@@ -81,33 +81,33 @@ function initialize()
 
 	function onResize()
 	{
-		arToolkitSource.onResizeElement()	
-		arToolkitSource.copyElementSizeTo(renderer.domElement)	
+		arToolkitSource.onResizeElement()
+		arToolkitSource.copyElementSizeTo(renderer.domElement)
 		if ( arToolkitContext.arController !== null )
 		{
-			arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)	
-		}	
+			arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+		}
 	}
 
 	arToolkitSource.init(function onReady(){
 		onResize()
 	});
-	
+
 	// handle resize event
 	window.addEventListener('resize', function(){
 		onResize()
 	});
-	
+
 	////////////////////////////////////////////////////////////
 	// setup arToolkitContext
-	////////////////////////////////////////////////////////////	
+	////////////////////////////////////////////////////////////
 
 	// create atToolkitContext
 	arToolkitContext = new THREEx.ArToolkitContext({
 		cameraParametersUrl: './data/camera_para.dat',
 		detectionMode: 'mono'
 	});
-	
+
 	// copy projection matrix to camera when initialization complete
 	arToolkitContext.init( function onCompleted(){
 		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
@@ -128,7 +128,8 @@ function initialize()
 		    if (model == mBlackBear) {
 			object.scale.set(0.25,0.25,0.25);
 		    } else if (model == mPlane) {
-			object.scale.set(1.6,1.6,1.6);
+			//object.scale.set(1.6,1.6,1.6);
+			object.scale.set(1.3,1.3,1.3);
 			object.translateY(1.2);
 		    } else if (model == mCamero) {
 			object.scale.set(6.0,6.0,6.0);
@@ -143,7 +144,8 @@ function initialize()
 			object.scale.set(2.2,2.2,2.2);
 			object.translateY(0.6);
 		    } else if (model == mShuttle) {
-			object.scale.set(0.12,0.12,0.12);
+			//object.scale.set(0.12,0.12,0.12);
+			object.scale.set(0.06,0.06,0.06);
 			object.translateY(3.5);
 		    } else if (model == mBackpack) {
 			object.scale.set(4,4,4);
@@ -152,11 +154,12 @@ function initialize()
 			object.scale.set(1.5,1.5,1.5);
 			object.translateY(0.6);
 		    } else if (model == mSteamTrain) {
-			object.scale.set(2.0,2.0,2.0);
+			//object.scale.set(2.0,2.0,2.0);
+			object.scale.set(1.6,1.6,1.6);
 			object.translateY(0.5);
 		    }
 		    markerRoot.add(object);
-		}	
+		}
 
 		markerRoot = new THREE.Group();
 		scene.add(markerRoot);
@@ -166,13 +169,13 @@ function initialize()
 
 		let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
 		let loader = new THREE.TextureLoader();
-		let material1 = new THREE.MeshBasicMaterial( 
+		let material1 = new THREE.MeshBasicMaterial(
 			//{ color: 0x0000ff, opacity: 0.5 } );
 			{ color: 0x8B4513, opacity: 1.0 } );
 		let mesh = new THREE.Mesh( geometry1, material1 );
 		mesh.rotation.x = -Math.PI/2;
 		markerRoot.add( mesh );
-		
+
 		function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 		function onError(xhr) { console.log( 'An error happened' ); }
 
@@ -192,7 +195,7 @@ function initialize()
 		});
 	}
 
-	let patternArray = [ 
+	let patternArray = [
 		"data/kanji",
 		"patterns50/bsa-low",
 		"data/letterB",
@@ -210,12 +213,12 @@ function initialize()
 		"data/letterC",
 		];
 
-	let mBlackBear = "BlackBear"; 
+	let mBlackBear = "BlackBear";
 	// https://poly.google.com/view/56ym_pyVnel
 	// Black Bear
 	// by Poly by Google
 
-	let mPlane = "PUSHILIN_Plane"; 
+	let mPlane = "PUSHILIN_Plane";
 	// https://poly.google.com/view/8VysVKMXN2J
 	// Plane
 	// by Poly by Google
@@ -231,7 +234,7 @@ function initialize()
 	// by Linus Ekenstam
 
 	let mCastle = "castle";
-	// https://poly.google.com/view/etqqsPcUD0V 
+	// https://poly.google.com/view/etqqsPcUD0V
 	// Castle of the Cool Guys
 	// by Nathan DiPietro
 
@@ -261,7 +264,7 @@ function initialize()
 	// by Kris Tong
 
 
-	let modelArray = [ 
+	let modelArray = [
 		mSteamTrain,
 		mBlackBear,
 		mPlane,
@@ -277,7 +280,7 @@ function initialize()
 		addModelAndPattern(patternArray[i], modelArray[i]);
 	}
 
-	
+
 }
 
 
